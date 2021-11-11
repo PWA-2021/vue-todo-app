@@ -1,5 +1,12 @@
 <template>
   <div class="home">
+    <b-modal
+      :active="$route.name === 'AddTodo'"
+      :on-cancel="() => handleCancel()"
+    >
+      <router-view />
+    </b-modal>
+
     <section>
       <b-table
         :data="data"
@@ -14,13 +21,9 @@
       </b-table>
     </section>
 
-    <b-field label="Task name">
-      <b-input
-        placeholder="The name of your task item"
-        v-model="name"
-      ></b-input>
-    </b-field>
-    <b-button @click="addTodo" type="is-primary">Add todo item</b-button>
+    <router-link class="button is-primary" to="/add" type="is-primary">
+      Open modal
+    </router-link>
   </div>
 </template>
 
@@ -33,11 +36,13 @@ export default {
         checkable: true
       })
       this.name = ''
+    },
+    handleCancel() {
+      this.$router.push({ path: '/' })
     }
   },
   data() {
     return {
-      name: '',
       data: [
         {
           id: 1,
